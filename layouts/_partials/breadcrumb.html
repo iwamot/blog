@@ -1,0 +1,8 @@
+{{- /*
+  Breadcrumbs are disabled site-wide.
+
+  The /articles/ section page is not rendered (see content/articles/_index.md,
+  build.render: never), so the "Articles" crumb would be a dead link. The blog
+  is also flat (home is the post list, posts live under /articles/<slug>/), so
+  breadcrumbs add little. Rendering nothing here removes them everywhere.
+*/ -}}
