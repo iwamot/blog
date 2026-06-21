@@ -10,7 +10,9 @@ mise install
 mise run gha-lint
 mise run shell-lint
 
-# Add repo-specific lint here
+# Regenerate OGP cards. Output is deterministic, so the git diff check below
+# flags any card that was not regenerated and committed.
+go run ./tools/ogp content/articles/*/
 
 # Check for uncommitted changes
 git diff --exit-code
