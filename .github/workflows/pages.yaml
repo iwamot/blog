@@ -28,7 +28,7 @@ jobs:
       contents: read  # to check out the repository
     env:
       # renovate: datasource=github-releases depName=gohugoio/hugo extractVersion=^v(?<version>.+)$
-      HUGO_VERSION: 0.163.1
+      HUGO_VERSION: 0.163.3
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
