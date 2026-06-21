@@ -1,0 +1,43 @@
+# tcardgen drawing config. Coordinates target the 1200x630 template.png.
+# The site name is baked into the template; tcardgen draws the title and tags.
+template: assets/tcardgen/template.png
+
+title:
+  start:
+    px: 80
+    py: 178
+  fgHexColor: "#1A1A1A"
+  fontSize: 72
+  fontStyle: Bold
+  maxWidth: 1040
+  lineSpacing: 16
+
+# The blog uses tags, not categories.
+category:
+  enabled: false
+
+# info draws "author + date" as a fixed set and cannot drop the author alone,
+# so it is disabled entirely. The card shows no byline.
+info:
+  enabled: false
+
+# tools/ogp renders tagless articles by turning the tag row off: it flips every
+# enabled-true line here to false, and the tags block is the only one enabled.
+tags:
+  enabled: true
+  limit: 0
+  titleCaseEnabled: false
+  start:
+    px: 1120
+    py: 502
+  fgHexColor: "#FFFFFF"
+  bgHexColor: "#0091FF"
+  fontSize: 24
+  fontStyle: Medium
+  boxAlign: Right
+  boxSpacing: 8
+  boxPadding:
+    top: 6
+    right: 12
+    bottom: 6
+    left: 12

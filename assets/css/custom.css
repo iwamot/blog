@@ -1,0 +1,6 @@
+/* Insert spacing between CJK and Latin/numeric text (和欧間アキ).
+   Titles and body copy are written without manual spaces; the browser adds
+   the spacing. tools/ogp applies the same spacing to the OGP card. */
+body {
+  text-autospace: normal;
+}
