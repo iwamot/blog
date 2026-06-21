@@ -1,4 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>iwamot/renovate-config#v0.15.0"]
+  "extends": ["github>iwamot/renovate-config#v0.15.0"],
+  "packageRules": [
+    {
+      "description": "Track the Hextra theme, imported as a Hugo Module and recorded as an indirect gomod dependency",
+      "matchManagers": ["gomod"],
+      "matchDepTypes": ["indirect"],
+      "enabled": true
+    }
+  ]
 }
