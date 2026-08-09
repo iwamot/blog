@@ -6,6 +6,10 @@ eval "$(mise activate bash)"
 mise fmt
 mise install
 
+# Go
+go-licenses check ./...
+govulncheck ./...
+
 # Run shared lint tasks
 mise run gha-lint
 mise run shell-lint
