@@ -7,7 +7,7 @@ lockfile = true
 "github:Ladicle/tcardgen" = "0.10.0"
 go = "1.26.5"
 "go:github.com/google/go-licenses/v2" = "v2.0.1"
-"go:golang.org/x/vuln/cmd/govulncheck" = "v1.6.0"
+"go:golang.org/x/vuln/cmd/govulncheck" = "v1.7.0"
 hugo = "0.165.0"
 
 [task_config]
