@@ -51,7 +51,7 @@ Remove `draft: true` (or set it to `false`) and push to `main`. A `draft: true` 
 
 ## Deployment
 
-Pushing to `main` triggers [`.github/workflows/pages.yaml`](.github/workflows/pages.yaml), which builds the site with Hugo and deploys it to GitHub Pages (custom domain `blog.iwamot.com`).
+Pushing to `main` triggers [`.github/workflows/pages.yml`](.github/workflows/pages.yml), which builds the site with Hugo and deploys it to GitHub Pages (custom domain `blog.iwamot.com`).
 
 ## Theme updates
 
