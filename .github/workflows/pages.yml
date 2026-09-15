@@ -26,9 +26,6 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: read  # to check out the repository
-    env:
-      # renovate: datasource=github-releases depName=gohugoio/hugo extractVersion=^v(?<version>.+)$
-      HUGO_VERSION: 0.166.0
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -36,19 +33,22 @@ jobs:
           fetch-depth: 0  # fetch all history for .GitInfo and .Lastmod
           submodules: recursive
           persist-credentials: false
-      - name: Setup Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+      - name: Get mise version from mise.toml
+        id: mise-version
+        # Assign first so a failure reading min_version fails the step instead of
+        # writing an empty version, which mise-action treats as "latest".
+        run: |
+          v=$(python3 -c "import tomllib; print(tomllib.load(open('mise.toml','rb'))['min_version'])")
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - name: Setup mise
+        uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
         with:
-          go-version-file: go.mod
+          version: ${{ steps.mise-version.outputs.version }}
+          install_args: go hugo
+          cache: false
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
-      - name: Setup Hugo
-        env:
-          RUNNER_TEMP: ${{ runner.temp }}
-        run: |
-          wget -O "${RUNNER_TEMP}/hugo.deb" "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb" \
-          && sudo dpkg -i "${RUNNER_TEMP}/hugo.deb"
       - name: Build with Hugo
         env:
           # For maximum backward compatibility with Hugo modules
