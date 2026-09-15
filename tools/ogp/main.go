@@ -204,7 +204,7 @@ func hasTags(head string) bool {
 	if inline := strings.TrimSpace(head[loc[2]:loc[3]]); inline != "" {
 		return strings.Trim(inline, "[] \t") != ""
 	}
-	for _, line := range strings.Split(head[loc[1]:], "\n") {
+	for line := range strings.SplitSeq(head[loc[1]:], "\n") {
 		if strings.TrimSpace(line) == "" {
 			continue
 		}
