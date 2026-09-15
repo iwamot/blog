@@ -28,6 +28,9 @@ allowed_licenses=(
 )
 go-licenses check ./... --allowed_licenses="$(IFS=',' && echo "${allowed_licenses[*]}")"
 govulncheck ./...
+go fix ./...
+gofmt -w .
+go vet ./...
 
 # Run shared lint tasks
 mise run gha-lint
