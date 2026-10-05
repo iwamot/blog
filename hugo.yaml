@@ -3,6 +3,8 @@ title: iwamot's blog
 defaultContentLanguage: ja
 # Keep tag/list titles as written instead of auto-capitalizing (hugo, not Hugo)
 capitalizeListTitles: false
+# Read a date without a time zone (date: 2026-10-06) as midnight in Japan, not UTC
+timeZone: Asia/Tokyo
 
 # import hextra as module
 module:
