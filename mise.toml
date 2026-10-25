@@ -5,9 +5,6 @@ experimental = true
 lockfile = true
 minimum_release_age = "1d"
 
-[tool_config]
-locked = true
-
 [tools]
 "github:Ladicle/tcardgen" = "0.10.0"
 go = "1.27.3"
