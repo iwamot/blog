@@ -448,8 +448,20 @@ checksum = "sha256:230d89e541c891fb1fe57287ef780dbd249dd348c98510012042ca4a80982
 url = "https://github.com/Ladicle/tcardgen/releases/download/v0.10.0/tcardgen_Linux_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/Ladicle/tcardgen/releases/assets/338686946"
 
+[tools."github:Ladicle/tcardgen"."platforms.linux-x64-baseline"]
+checksum = "sha256:230d89e541c891fb1fe57287ef780dbd249dd348c98510012042ca4a80982c3d"
+checksum_source = "mise-versions"
+url = "https://github.com/Ladicle/tcardgen/releases/download/v0.10.0/tcardgen_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/Ladicle/tcardgen/releases/assets/338686946"
+
 [tools."github:Ladicle/tcardgen"."platforms.linux-x64-musl"]
 checksum = "sha256:230d89e541c891fb1fe57287ef780dbd249dd348c98510012042ca4a80982c3d"
+url = "https://github.com/Ladicle/tcardgen/releases/download/v0.10.0/tcardgen_Linux_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/Ladicle/tcardgen/releases/assets/338686946"
+
+[tools."github:Ladicle/tcardgen"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:230d89e541c891fb1fe57287ef780dbd249dd348c98510012042ca4a80982c3d"
+checksum_source = "mise-versions"
 url = "https://github.com/Ladicle/tcardgen/releases/download/v0.10.0/tcardgen_Linux_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/Ladicle/tcardgen/releases/assets/338686946"
 
@@ -460,6 +472,12 @@ url_api = "https://api.github.com/repos/Ladicle/tcardgen/releases/assets/3386869
 
 [tools."github:Ladicle/tcardgen"."platforms.macos-x64"]
 checksum = "sha256:400b1aeda4f752cb55b69223eee36d89732d510913d165bea79ad2c538619c4a"
+url = "https://github.com/Ladicle/tcardgen/releases/download/v0.10.0/tcardgen_Darwin_x86_64.tar.gz"
+url_api = "https://api.github.com/repos/Ladicle/tcardgen/releases/assets/338686949"
+
+[tools."github:Ladicle/tcardgen"."platforms.macos-x64-baseline"]
+checksum = "sha256:400b1aeda4f752cb55b69223eee36d89732d510913d165bea79ad2c538619c4a"
+checksum_source = "mise-versions"
 url = "https://github.com/Ladicle/tcardgen/releases/download/v0.10.0/tcardgen_Darwin_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/Ladicle/tcardgen/releases/assets/338686949"
 
@@ -622,7 +640,15 @@ url = "https://dl.google.com/go/go1.27.3.linux-arm64.tar.gz"
 checksum = "sha256:65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40"
 url = "https://dl.google.com/go/go1.27.3.linux-amd64.tar.gz"
 
+[tools.go."platforms.linux-x64-baseline"]
+checksum = "sha256:65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40"
+url = "https://dl.google.com/go/go1.27.3.linux-amd64.tar.gz"
+
 [tools.go."platforms.linux-x64-musl"]
+checksum = "sha256:65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40"
+url = "https://dl.google.com/go/go1.27.3.linux-amd64.tar.gz"
+
+[tools.go."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:65efbc80fdc1fa2cd2631cad5b481777a68e8725f34e89f50fc6ac714e379b40"
 url = "https://dl.google.com/go/go1.27.3.linux-amd64.tar.gz"
 
@@ -634,7 +660,15 @@ url = "https://dl.google.com/go/go1.27.3.darwin-arm64.tar.gz"
 checksum = "sha256:b6f8e931e4ab497fcde6da8ae4499a58f9d258e55c8a80824a516eae5950a750"
 url = "https://dl.google.com/go/go1.27.3.darwin-amd64.tar.gz"
 
+[tools.go."platforms.macos-x64-baseline"]
+checksum = "sha256:b6f8e931e4ab497fcde6da8ae4499a58f9d258e55c8a80824a516eae5950a750"
+url = "https://dl.google.com/go/go1.27.3.darwin-amd64.tar.gz"
+
 [tools.go."platforms.windows-x64"]
+checksum = "sha256:f26081f438319757f8a1b46d7d0b2c5ec7583d4038e485e0aa725cfde7885fff"
+url = "https://dl.google.com/go/go1.27.3.windows-amd64.zip"
+
+[tools.go."platforms.windows-x64-baseline"]
 checksum = "sha256:f26081f438319757f8a1b46d7d0b2c5ec7583d4038e485e0aa725cfde7885fff"
 url = "https://dl.google.com/go/go1.27.3.windows-amd64.zip"
 
@@ -668,8 +702,20 @@ checksum = "sha256:fada83ad56bb27ed4cb7dd81590303bdac16140f944ac4e66fc248117e2d5
 url = "https://github.com/gohugoio/hugo/releases/download/v0.168.0/hugo_0.168.0_linux-amd64.tar.gz"
 url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/637728522"
 
+[tools.hugo."platforms.linux-x64-baseline"]
+checksum = "sha256:fada83ad56bb27ed4cb7dd81590303bdac16140f944ac4e66fc248117e2d5594"
+checksum_source = "mise-versions"
+url = "https://github.com/gohugoio/hugo/releases/download/v0.168.0/hugo_0.168.0_linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/637728522"
+
 [tools.hugo."platforms.linux-x64-musl"]
 checksum = "sha256:fada83ad56bb27ed4cb7dd81590303bdac16140f944ac4e66fc248117e2d5594"
+url = "https://github.com/gohugoio/hugo/releases/download/v0.168.0/hugo_0.168.0_linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/637728522"
+
+[tools.hugo."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:fada83ad56bb27ed4cb7dd81590303bdac16140f944ac4e66fc248117e2d5594"
+checksum_source = "mise-versions"
 url = "https://github.com/gohugoio/hugo/releases/download/v0.168.0/hugo_0.168.0_linux-amd64.tar.gz"
 url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/637728522"
 
@@ -683,7 +729,19 @@ checksum = "sha256:01b2f0abc453242225a9bfac2c91c66a078135a28f12222a475649a299a20
 url = "https://github.com/gohugoio/hugo/releases/download/v0.168.0/hugo_0.168.0_darwin-universal.pkg"
 url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/637728680"
 
+[tools.hugo."platforms.macos-x64-baseline"]
+checksum = "sha256:01b2f0abc453242225a9bfac2c91c66a078135a28f12222a475649a299a20281"
+checksum_source = "mise-versions"
+url = "https://github.com/gohugoio/hugo/releases/download/v0.168.0/hugo_0.168.0_darwin-universal.pkg"
+url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/637728680"
+
 [tools.hugo."platforms.windows-x64"]
 checksum = "sha256:f6cf760426de305cdd85c6eaa7e203a4d623e74cc6ad8fea61228caf1e59f243"
+url = "https://github.com/gohugoio/hugo/releases/download/v0.168.0/hugo_0.168.0_windows-amd64.zip"
+url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/637728720"
+
+[tools.hugo."platforms.windows-x64-baseline"]
+checksum = "sha256:f6cf760426de305cdd85c6eaa7e203a4d623e74cc6ad8fea61228caf1e59f243"
+checksum_source = "mise-versions"
 url = "https://github.com/gohugoio/hugo/releases/download/v0.168.0/hugo_0.168.0_windows-amd64.zip"
 url_api = "https://api.github.com/repos/gohugoio/hugo/releases/assets/637728720"
