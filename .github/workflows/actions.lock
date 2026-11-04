@@ -13,7 +13,7 @@ workflows:
         - 'actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d'
         - 'actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346'
         - 'actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9'
-        - 'jdx/mise-action@6612f0ef07ed2a736cd1e00a94a065522dd41195'
+        - 'jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c'
     '.github/workflows/release.yml': []
     '.github/workflows/renovate.yml': []
     '.github/workflows/validate.yml': []
@@ -45,8 +45,8 @@ dependencies:
         repo_id: 496012378
         uses:
             - 'actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f'
-    'jdx/mise-action@6612f0ef07ed2a736cd1e00a94a065522dd41195':
-        ref: 'v5.2.5'
-        commit: 'sha1-6612f0ef07ed2a736cd1e00a94a065522dd41195'
+    'jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c':
+        ref: 'v5.2.6'
+        commit: 'sha1-f5be966e4a917d54244728e6a5fdcd1d93a35e6c'
         owner_id: 216188
         repo_id: 738284564
