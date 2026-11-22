@@ -219,12 +219,29 @@ func hasTags(head string) bool {
 }
 
 // withPlaceholderTags ensures a non-empty tags field so tcardgen accepts the
-// file. The card itself is rendered with the tag row disabled.
+// file. The card itself is rendered with the tag row disabled. Whatever the
+// front matter says under tags is dropped first, since it names no tag: an
+// empty list, an empty block, or blank items. The body is left as it is,
+// even where it shows front matter of its own.
 func withPlaceholderTags(content string) string {
-	if strings.Contains(content, "tags: []") {
-		return strings.Replace(content, "tags: []", `tags: ["x"]`, 1)
+	head, body, ok := frontMatter(content)
+	if !ok {
+		return content
 	}
-	return insertField(content, "tags", `tags: ["x"]`)
+	var kept strings.Builder
+	inTags := false
+	for _, line := range strings.SplitAfter(head, "\n") {
+		indented := strings.HasPrefix(line, " ") || strings.HasPrefix(line, "\t")
+		switch {
+		case strings.HasPrefix(line, "tags:"):
+			inTags = true
+		case inTags && (indented || strings.TrimSpace(line) == ""):
+		default:
+			inTags = false
+			kept.WriteString(line)
+		}
+	}
+	return "---\n" + kept.String() + `tags: ["x"]` + "\n" + body
 }
 
 var titleLine = regexp.MustCompile(`(?m)^(title:[ \t]*)(.*)$`)

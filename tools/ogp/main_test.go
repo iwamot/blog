@@ -7,27 +7,6 @@ import (
 	"testing"
 )
 
-func TestAutospace(t *testing.T) {
-	for _, tt := range []struct{ name, input, want string }{
-		{"empty", "", ""},
-		{"latin", "Hello 2026", "Hello 2026"},
-		{"japanese", "日本語ひらがなカタカナ", "日本語ひらがなカタカナ"},
-		{"boundaries", "GoでOGPを生成2026年", "Go で OGP を生成 2026 年"},
-		{"existing spaces", "Go で OGP を生成", "Go で OGP を生成"},
-		{"punctuation", "Go、日本語。2026", "Go、日本語。2026"},
-		{"accented latin", "日本語café", "日本語 café"},
-	} {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := autospace(tt.input); got != tt.want {
-				t.Errorf("autospace(%q) = %q, want %q", tt.input, got, tt.want)
-			}
-			if got := autospace(tt.want); got != tt.want {
-				t.Errorf("autospace is not idempotent: %q", got)
-			}
-		})
-	}
-}
-
 func TestAutospaceTitle(t *testing.T) {
 	for _, tt := range []struct{ name, input, want string }{
 		{"plain", "---\ntitle: Goで生成\n---\nGoで本文\n", "---\ntitle: Go で生成\n---\nGoで本文\n"},
@@ -64,30 +43,6 @@ func TestFrontMatter(t *testing.T) {
 	}
 }
 
-func TestHasTags(t *testing.T) {
-	for _, tt := range []struct {
-		name, head string
-		want       bool
-	}{
-		{"missing", "title: Hello\n", false},
-		{"inline", "tags: [Go, Hugo]\n", true},
-		{"inline empty", "tags: []\n", false},
-		{"inline spaces", "tags: [  ]\n", false},
-		{"block", "tags:\n  - Go\n", true},
-		{"block with blank lines", "tags:\n\n  - Go\n", true},
-		{"block empty item", "tags:\n  - \n", false},
-		{"block non-item", "tags:\n  value\n", false},
-		{"following field", "tags:\ntitle: Hello\n  - not a tag\n", false},
-		{"empty", "tags:\n", false},
-	} {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := hasTags(tt.head); got != tt.want {
-				t.Errorf("hasTags(%q) = %v, want %v", tt.head, got, tt.want)
-			}
-		})
-	}
-}
-
 func TestInsertField(t *testing.T) {
 	for _, tt := range []struct{ name, input, want string }{
 		{"insert", "---\ntitle: Hello\n---\nBody\n", "---\ntitle: Hello\ntags: [Go]\n---\nBody\n"},
@@ -115,15 +70,6 @@ func TestEnsureFields(t *testing.T) {
 	}
 }
 
-func TestWithPlaceholderTags(t *testing.T) {
-	for _, input := range []string{"---\ntitle: Hello\n---\nBody\n", "---\ntitle: Hello\ntags: []\n---\nBody\n"} {
-		want := "---\ntitle: Hello\ntags: [\"x\"]\n---\nBody\n"
-		if got := withPlaceholderTags(input); got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
-	}
-}
-
 func TestWithTagsDisabled(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "config.yaml")
@@ -144,5 +90,100 @@ func TestWithTagsDisabled(t *testing.T) {
 	}
 	if _, err := withTagsDisabled(filepath.Join(dir, "missing")); err == nil {
 		t.Error("expected read error")
+	}
+}
+
+// Each token is one kind of character: Latin letters or digits, CJK, or
+// something else. A space belongs between a Latin token and a CJK token, in
+// either order, and nowhere else.
+var autospaceTokens = []struct{ text, kind string }{
+	{"Go", "latin"}, {"OGP", "latin"}, {"2026", "latin"}, {"Hello", "latin"}, {"café", "latin"},
+	{"日本語", "cjk"}, {"ひらがな", "cjk"}, {"カタカナ", "cjk"}, {"で", "cjk"}, {"を", "cjk"}, {"生成", "cjk"}, {"年", "cjk"},
+	{" ", "other"}, {"、", "other"}, {"。", "other"}, {"-", "other"}, {"!", "other"},
+}
+
+func TestAutospaceSpacesLatinFromCJKOnly(t *testing.T) {
+	var walk func(input, want, last string, depth int)
+	walk = func(input, want, last string, depth int) {
+		if got := autospace(input); got != want {
+			t.Errorf("autospace(%q) = %q, want %q", input, got, want)
+		}
+		if got := autospace(want); got != want {
+			t.Errorf("autospace is not idempotent: %q", got)
+		}
+		if depth == 3 {
+			return
+		}
+		for _, tok := range autospaceTokens {
+			sep := ""
+			if (last == "latin" && tok.kind == "cjk") || (last == "cjk" && tok.kind == "latin") {
+				sep = " "
+			}
+			walk(input+tok.text, want+sep+tok.text, tok.kind, depth+1)
+		}
+	}
+	walk("", "", "", 0)
+}
+
+// tagForms are the ways front matter writes tags, with whether each names one.
+var tagForms = []struct {
+	text string
+	has  bool
+}{
+	{"", false},
+	{"tags: [Go, Hugo]\n", true},
+	{"tags: []\n", false},
+	{"tags: [  ]\n", false},
+	{"tags:\n  - Go\n", true},
+	{"tags:\n\n  - Go\n", true},
+	{"tags:\n  - \n", false},
+	{"tags:\n  value\n", false},
+	{"tags:\ntitle: Hello\n  - not a tag\n", false},
+	{"tags:\n", false},
+}
+
+// tagContexts are the fields that may sit around tags in the same front matter.
+var tagContexts = [][2]string{{"", ""}, {"title: T\n", ""}, {"", "draft: true\n"}, {"title: T\n", "draft: true\n"}}
+
+func TestHasTagsIgnoresTheFieldsAround(t *testing.T) {
+	for _, form := range tagForms {
+		for _, around := range tagContexts {
+			head := around[0] + form.text + around[1]
+			if got := hasTags(head); got != form.has {
+				t.Errorf("hasTags(%q) = %v, want %v", head, got, form.has)
+			}
+		}
+	}
+}
+
+func TestWithPlaceholderTagsGivesOneTagAndKeepsTheRest(t *testing.T) {
+	bodies := []string{"Body\n", "```yaml\ntags: []\n```\n", "---\ntags: []\n---\n", ""}
+	for _, form := range tagForms {
+		for _, around := range tagContexts {
+			if around[0]+form.text+around[1] == "" {
+				// Every article's front matter holds at least its title.
+				continue
+			}
+			for _, body := range bodies {
+				input := "---\n" + around[0] + form.text + around[1] + "---\n" + body
+				out := withPlaceholderTags(input)
+				head, rest, ok := frontMatter(out)
+				if !ok || !hasTags(head) || strings.Count(head, "tags:") != 1 {
+					t.Errorf("withPlaceholderTags(%q) = %q: want one tag in the front matter", input, out)
+					continue
+				}
+				if rest != "---\n"+body {
+					t.Errorf("withPlaceholderTags(%q) changed the body: %q", input, rest)
+				}
+				for _, field := range around {
+					if !strings.Contains(head, field) {
+						t.Errorf("withPlaceholderTags(%q) dropped %q", input, field)
+					}
+				}
+			}
+		}
+	}
+	if got := withPlaceholderTags("Body\n"); got != "Body\n" {
+		t.Errorf("content without front matter changed: %q", got)
 	}
 }
